@@ -1,132 +1,108 @@
 ﻿using Renci.SshNet;
-using Editor;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
 
 namespace WMConsole
 {
     class WMConsole
     {
-        private static SshClient _ssh = default!;
-        private static ScpClient _scp = default!;
-
-        static string Interpreter(List<StringBuilder> obj, out bool transfer)
+        static List<Tuple<string, List<string>>> Args(string[] args)
         {
-            string pattern = @"Plot\[(.*?)\]";
-            Regex rgx = new Regex(pattern);
-            transfer = false;
-
-            for (int i = 0; i < obj.Count; i++)
+            List<Tuple<string, List<string>>> ret = new List<Tuple<string, List<string>>>();
+            args = args.Select(x => x.Trim()).ToArray();
+            for (int i = 0; i < args.Length;)
             {
-                MatchCollection mc = rgx.Matches(obj[i].ToString());
-                if (mc.Count == 1)
+                if (args[i].StartsWith("-") && args[i].Substring(1).Length > 0)
                 {
-                    transfer = true;
-                    obj[i] = new StringBuilder("graphicsObject=" + obj[i] + "; Export[\"tmp.jpg\", graphicsObject];");
+                    string arg = args[i].Substring(1);
+                    List<string> argArgs = new List<string>();
+                    while (++i < args.Length && !args[i].StartsWith("-"))
+                        argArgs.Add(args[i]);
+
+                    ret.Add(new Tuple<string, List<string>>(arg, argArgs));
                 }
             }
-            return string.Join(Environment.NewLine, obj.Select(x => x.ToString()));
-        }
 
-        static void RemoteF5(ConsoleEditor instance, List<StringBuilder> obj)
-        {
-            instance.Write(" ... ", false);
-            string code = Interpreter(obj, out bool transfer);
-            string result = _ssh.RunCommand("wolframscript -code '" + code + "'").Execute();
-            if (transfer)
-                using (Stream localFile = File.Create("./folder"))
-                {
-                    _scp.Download("/home/pi/tmp.jpg", localFile);
-
-                    ProcessStartInfo procStartInfo = new ProcessStartInfo("feh", "./folder");
-                    procStartInfo.RedirectStandardOutput = true;
-                    procStartInfo.UseShellExecute = false;
-                    procStartInfo.CreateNoWindow = true;
-                    Process proc = new Process();
-                    proc.StartInfo = procStartInfo;
-                    proc.Start();
-                }
-            if (!result.Contains("Null"))
-                instance.Write(result, false);
-        }
-
-        static void LocalF5(ConsoleEditor instance, List<StringBuilder> obj)
-        {
-            instance.Write(" ... ", false);
-            string code = Interpreter(obj, out bool transfer);
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("wolframscript", "-code " + code + "");
-            procStartInfo.RedirectStandardOutput = true;
-            procStartInfo.RedirectStandardError = true;
-            procStartInfo.UseShellExecute = false;
-            procStartInfo.CreateNoWindow = true;
-            Process proc = new Process();
-            proc.StartInfo = procStartInfo;
-            proc.Start();
-            string result = proc.StandardOutput.ReadToEnd();
-            proc.WaitForExit();
-            if (!result.Contains("Null"))
-                instance.Write(result, false);
-
-            //string result = _ssh.RunCommand("wolframscript -code '" + code + "'").Execute();
-            //if (transfer)
-            //    using (Stream localFile = File.Create("./folder"))
-            //    {
-            //        _scp.Download("/home/pi/tmp.jpg", localFile);
-            //
-            //        System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("feh", "./folder");
-            //        procStartInfo.RedirectStandardOutput = true;
-            //        procStartInfo.UseShellExecute = false;
-            //        procStartInfo.CreateNoWindow = true;
-            //        System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            //        proc.StartInfo = procStartInfo;
-            //        proc.Start();
-            //    }
-            //if (result != "Null\n")
-            //    instance.Write(result, false);
+            return ret;
         }
 
         static void Main(string[] args)
         {
-            Console.Clear();
-            Console.WriteLine(
-@"Wolfram Kernel is
-1.  local
-2.  remote");
+            List<Tuple<string, List<string>>> largs = Args(args);
+
+            string kernel = "";
+            if (largs.Select(x => x.Item1).Contains("k"))
+            {
+                if (largs.Find(x => x.Item1 == "k").Item2[0] == "local")
+                    kernel = "1";
+                else if (largs.Find(x => x.Item1 == "k").Item2[0] == "remote")
+                    kernel = "2";
+            }
+            else
+                do
+                {
+                    Console.WriteLine("Wolfram Kernel is\n1.  local\n2.  remote");
+                    kernel = Console.ReadLine();
+                }
+                while (kernel != "1" && kernel != "2");
+
+            string host = "";
+            string user = "";
+            string passwd = "";
+            if (kernel == "2")
+            {
+                if (largs.Select(x => x.Item1).Contains("host"))
+                    host = largs.Find(x => x.Item1 == "host").Item2[0];
+                else
+                {
+                    Console.Write("Host: ");
+                    host = Console.ReadLine();
+                }
+
+                if (largs.Select(x => x.Item1).Contains("u"))
+                    user = largs.Find(x => x.Item1 == "u").Item2[0];
+                else
+                {
+                    Console.Write("User: ");
+                    user = Console.ReadLine();
+                }
+
+                if (largs.Select(x => x.Item1).Contains("p"))
+                    passwd = largs.Find(x => x.Item1 == "p").Item2[0];
+                else
+                {
+                    Console.Write("Password: ");
+                    passwd = Utils.Password();
+                }
+            }
+
+            string path = "";
+            if (largs.Select(x => x.Item1).Contains("f"))
+                path = largs.Find(x => x.Item1 == "f").Item2[0];
+            else
+            {
+                Console.Write("File path: ");
+                path = Console.ReadLine();
+            }
 
             try
             {
-                bool ok = false;
-                ConsoleEditor ce = new ConsoleEditor();
-                string? input = Console.ReadLine();
-                if (input == "1")
+                SshClient ssh = default!;
+                ScpClient scp = default!;
+                bool ok = true;
+                if (kernel == "2")
                 {
-                    ok = true;
-                    ce.HandlerF5 += LocalF5;
-                }
-                else if (input == "2")
-                {
-                    Console.WriteLine("Remote connection is available only on SSH");
-                    Console.Write("IP: ");
-                    string? ip = Console.ReadLine();
-                    Console.Write("User: ");
-                    string? user = Console.ReadLine();
-                    Console.Write("passwd: ");
-                    string? passwd = Console.ReadLine();
+                    Console.WriteLine("Connecting ...");
+                    ssh = new SshClient(host, 22, user, passwd);
+                    ssh.Connect();
+                    scp = new ScpClient(host, user, passwd);
+                    scp.Connect();
 
-                    _ssh = new SshClient(ip, 22, user, passwd);
-                    _ssh.Connect();
-                    _scp = new ScpClient(ip, user, passwd);
-                    _scp.Connect();
-
-                    ok = _ssh.IsConnected && _scp.IsConnected;
-                    ce.HandlerF5 += RemoteF5;
+                    ok = ssh.IsConnected && scp.IsConnected;
                 }
 
                 if (ok)
-                    ce.Edit();
+                    WMExec.Execute(path, kernel == "2", ssh, scp);
                 else
-                    Console.WriteLine("Something wend wrong");
+                    Console.WriteLine("Something went wrong");
             }
             catch (Exception ex)
             {
