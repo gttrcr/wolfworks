@@ -12,7 +12,7 @@ namespace WMConsole
             string result;
             if (remote)
             {
-                result = ssh?.RunCommand("wolframscript -code '" + code + "'").Execute();
+                result = ssh.RunCommand("wolframscript -code '" + code + "'").Execute();
                 for (int i = 0; i < output_files.Count; i++)
                 {
                     path = "./" + Path.GetFileName(output_files[i]);

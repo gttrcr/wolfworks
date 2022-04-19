@@ -28,12 +28,12 @@ namespace WMConsole
         {
             List<Tuple<string, List<string>>> largs = Args(args);
 
-            string kernel = "";
+            string? kernel = "";
             if (largs.Select(x => x.Item1).Contains("k"))
             {
-                if (largs.Find(x => x.Item1 == "k").Item2[0] == "local")
+                if (largs.Find(x => x.Item1 == "k")?.Item2[0] == "local")
                     kernel = "1";
-                else if (largs.Find(x => x.Item1 == "k").Item2[0] == "remote")
+                else if (largs.Find(x => x.Item1 == "k")?.Item2[0] == "remote")
                     kernel = "2";
             }
             else
@@ -44,13 +44,13 @@ namespace WMConsole
                 }
                 while (kernel != "1" && kernel != "2");
 
-            string host = "";
-            string user = "";
-            string passwd = "";
+            string? host = "";
+            string? user = "";
+            string? passwd = "";
             if (kernel == "2")
             {
                 if (largs.Select(x => x.Item1).Contains("host"))
-                    host = largs.Find(x => x.Item1 == "host").Item2[0];
+                    host = largs.Find(x => x.Item1 == "host")?.Item2[0];
                 else
                 {
                     Console.Write("Host: ");
@@ -58,7 +58,7 @@ namespace WMConsole
                 }
 
                 if (largs.Select(x => x.Item1).Contains("u"))
-                    user = largs.Find(x => x.Item1 == "u").Item2[0];
+                    user = largs.Find(x => x.Item1 == "u")?.Item2[0];
                 else
                 {
                     Console.Write("User: ");
@@ -66,7 +66,7 @@ namespace WMConsole
                 }
 
                 if (largs.Select(x => x.Item1).Contains("p"))
-                    passwd = largs.Find(x => x.Item1 == "p").Item2[0];
+                    passwd = largs.Find(x => x.Item1 == "p")?.Item2[0];
                 else
                 {
                     Console.Write("Password: ");
@@ -74,9 +74,9 @@ namespace WMConsole
                 }
             }
 
-            string path = "";
+            string? path = "";
             if (largs.Select(x => x.Item1).Contains("f"))
-                path = largs.Find(x => x.Item1 == "f").Item2[0];
+                path = largs.Find(x => x.Item1 == "f")?.Item2[0];
             else
             {
                 Console.Write("File path: ");
@@ -99,7 +99,7 @@ namespace WMConsole
                     ok = ssh.IsConnected && scp.IsConnected;
                 }
 
-                if (ok)
+                if (ok && path != null)
                     WMExec.Execute(path, kernel == "2", ssh, scp);
                 else
                     Console.WriteLine("Something went wrong");
