@@ -1,3 +1,7 @@
 wolfconsole/bin/*
 wolfconsole/obj/*
 wolfconsole/*.tmp.jpg
+*.db
+*.tlog
+*.log
+piwolf/piwolf.cpp/.vs/PiWolf/v16/.suo
