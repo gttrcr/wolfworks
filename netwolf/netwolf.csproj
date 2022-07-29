@@ -5,5 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Reference Include="WolframNETLink">
+      <HintPath>C:\Program Files\Wolfram Research\Mathematica\12.0\SystemFiles\Links\NETLink\Wolfram.NETLink.dll</HintPath>
+      <!--<HintPath>/opt/Wolfram/WolframEngine/13.0/SystemFiles/Links/NETLink/Wolfram.NETLink.dll</HintPath>-->
+    </Reference>
+  </ItemGroup>
 
 </Project>
