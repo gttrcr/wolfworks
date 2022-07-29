@@ -5,3 +5,4 @@ wolfconsole/*.tmp.jpg
 *.tlog
 *.log
 piwolf/piwolf.cpp/.vs/PiWolf/v16/.suo
+netwolf/obj/*

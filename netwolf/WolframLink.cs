@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Wolfram.NETLink;
 
-namespace Wolf
+namespace NetWolf
 {
     public class WolframLink
     {

@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "netwolf/1.0.0": {
+        "dependencies": {
+          "Wolfram.NETLink": "1.7.7036.33318"
+        },
+        "runtime": {
+          "netwolf.dll": {}
+        }
+      },
+      "Wolfram.NETLink/1.7.7036.33318": {
+        "runtime": {
+          "Wolfram.NETLink.dll": {
+            "assemblyVersion": "1.7.7036.33318",
+            "fileVersion": "1.7.7036.33318"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "netwolf/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Wolfram.NETLink/1.7.7036.33318": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

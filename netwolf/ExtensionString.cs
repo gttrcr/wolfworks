@@ -1,4 +1,4 @@
-﻿namespace Wolf
+﻿namespace NetWolf
 {
     public static class ExtensionString
     {
