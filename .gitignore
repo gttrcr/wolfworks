@@ -1,7 +1,7 @@
-NetWolf/.vs*
-NetWolf/obj*
+NetWolf_/.vs*
+NetWolf_/obj*
+NetWolf_/bin/Debug*
 piwolf/piwolf.cpp/obj*
 piwolf/piwolf.cpp/.vs*
 wolfconsole/bin*
 wolfconsole/obj*
-NetWolf/bin/Debug*
