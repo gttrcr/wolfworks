@@ -65,22 +65,22 @@ namespace NetWolf
             SetFunction(new Input(this, input));
         }
 
-        public Result CallFunction(Transferable input, List<Transferable> arguments)
+        public Result CallFunction(Transferable input, List<Transferable> arguments, string name = "")
         {
-            string inputStr = input.Text + "[" + string.Join(",", arguments.Select(x => x.Text)) + "];";
+            string inputStr = (name == "" ? name : name + "=") + input.Text + "[" + string.Join(",", arguments.Select(x => x.Text)) + "]";
             return Execute(inputStr);
         }
 
-        public Result CallFunction(string input, List<string> arguments)
+        public Result CallFunction(string input, List<string> arguments, string name = "")
         {
-            return CallFunction(new Input(this, input), arguments.Select(x => new Input(this, x)).Cast<Transferable>().ToList());
+            return CallFunction(new Input(this, input), arguments.Select(x => new Input(this, x)).Cast<Transferable>().ToList(), name);
         }
 
         public Result Simplify(Transferable input = null, string name = "")
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "Simplify[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Simplify[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -88,7 +88,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "Length[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Length[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -96,7 +96,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + input.Text + "[[" + (index + 1) + "]];";
+            string inputStr = (name == "" ? name : name + "=") + input.Text + "[[" + (index + 1) + "]]";
             return Execute(inputStr);
         }
 
@@ -104,7 +104,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "NumberQ[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "NumberQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -112,7 +112,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "ArrayQ[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "ArrayQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -120,7 +120,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "MatrixQ[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "MatrixQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -128,7 +128,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "PolynomialQ[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "PolynomialQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -136,7 +136,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "Abs[" + input.Text + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Abs[" + input.Text + "]";
             return Execute(inputStr);
         }
 
@@ -144,25 +144,25 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + "Flatten[" + input + ", " + index + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Flatten[" + input + ", " + index + "]";
             return Execute(inputStr);
         }
 
         public Result Flatten(string input = "%", int index = 0, string name = "")
         {
-            string inputStr = (name == "" ? name : name + "=") + "Flatten[" + input + ", " + index + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Flatten[" + input + ", " + index + "]";
             return Execute(inputStr);
         }
 
         public Result Export(string path, string obj = "%", string name = "")
         {
-            string inputStr = (name == "" ? name : name + "=") + "Export[" + path + ", " + obj + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Export[" + path + ", " + obj + "]";
             return Execute(inputStr);
         }
 
         public Result Graph(string v, string e = "", string name = "", string options = "")
         {
-            string inputStr = (name == "" ? name : name + "=") + "Graph[{" + v + "}" + (e == "" ? e : ", {" + e + "}") + (options == "" ? options : ", " + options) + "];";
+            string inputStr = (name == "" ? name : name + "=") + "Graph[{" + v + "}" + (e == "" ? e : ", {" + e + "}") + (options == "" ? options : ", " + options) + "]";
             return Execute(inputStr);
         }
 

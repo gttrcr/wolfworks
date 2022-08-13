@@ -35,12 +35,12 @@ namespace NetWolf
 
     public static class TransferableExtension
     {
-        public static List<Result> ToArray(this Transferable res)
+        public static List<Result> ToList(this Transferable res)
         {
             List<Result> ret = new List<Result>();
             int Y = Convert.ToInt32(res.Link.Length(new Input(res.Link, res.Text)).Text);
-            for (int y = 0; y < Y; y++)
-                ret.Add(res.Link.Part(new Input(res.Link, res.Text), y + 1));
+            for (int y = 1; y <= Y; y++)
+                ret.Add(res.Link.Part(new Input(res.Link, res.Text), y));
 
             return ret;
         }
@@ -48,9 +48,9 @@ namespace NetWolf
         public static List<List<Result>> ToMatrix(this Result res)
         {
             List<List<Result>> ret = new List<List<Result>>();
-            List<Result> arr = ToArray(res);
+            List<Result> arr = ToList(res);
             for (int i = 0; i < arr.Count; i++)
-                ret.Add(ToArray(new Result(res.Link, arr[i].Text)));
+                ret.Add(ToList(new Result(res.Link, arr[i].Text)));
 
             return ret;
         }
