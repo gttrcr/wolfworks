@@ -8,24 +8,20 @@ namespace NetWolf
     public class WolframLink
     {
         private readonly Mutex wolfMutex;
-        private static MathKernel mathKernel = null;
-        public bool UniqueInstance { get; private set; }
+        private MathKernel mathKernel = null;
         public List<Input> DefinedFunctions { get; private set; }
 
-        public WolframLink(bool uniqueInstance = false)
+        public WolframLink()
         {
             wolfMutex = new Mutex();
-            if ((uniqueInstance && mathKernel == null) || !uniqueInstance)
+            DefinedFunctions = new List<Input>();
+            mathKernel = new MathKernel()
             {
-                DefinedFunctions = new List<Input>();
-                mathKernel = new MathKernel()
-                {
-                    ResultFormat = MathKernel.ResultFormatType.InputForm
-                };
+                ResultFormat = MathKernel.ResultFormatType.InputForm
+            };
 
-                //activate the kernel
-                mathKernel.Compute();
-            }
+            //activate the kernel
+            mathKernel.Compute();
         }
 
         //The only function that contains Compute function
@@ -96,7 +92,7 @@ namespace NetWolf
         {
             if (input == null)
                 input = new Input(this, "%");
-            string inputStr = (name == "" ? name : name + "=") + input.Text + "[[" + (index + 1) + "]]";
+            string inputStr = (name == "" ? name : name + "=") + input.Text + "[[" + index + "]]";
             return Execute(inputStr);
         }
 
