@@ -52,8 +52,9 @@ namespace NetWolf
 
         public void SetFunction(Transferable input)
         {
+            if (!DefinedFunctions.Contains(input))
+                DefinedFunctions.Add((Input)input);
             Execute(input);
-            DefinedFunctions.Add((Input)input);
         }
 
         public void SetFunction(string input)
