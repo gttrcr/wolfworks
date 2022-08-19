@@ -153,7 +153,7 @@ namespace NetWolf
 
         public Result Export(string path, string obj = "%", string name = "")
         {
-            string inputStr = (name == "" ? name : name + "=") + "Export[" + path + ", " + obj + "]";
+            string inputStr = (name == "" ? name : name + "=") + "Export[\"" + path + "\", " + obj + "]";
             return Execute(inputStr);
         }
 
