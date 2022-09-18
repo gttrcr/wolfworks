@@ -37,7 +37,7 @@ namespace NetWolf
     {
         public static List<Result> ToList(this Transferable res)
         {
-            List<Result> ret = new List<Result>();
+            List<Result> ret = new();
             int Y = Convert.ToInt32(res.Link.Length(new Input(res.Link, res.Text)).Text);
             for (int y = 1; y <= Y; y++)
                 ret.Add(res.Link.Part(new Input(res.Link, res.Text), y));
@@ -47,7 +47,7 @@ namespace NetWolf
 
         public static List<List<Result>> ToMatrix(this Result res)
         {
-            List<List<Result>> ret = new List<List<Result>>();
+            List<List<Result>> ret = new();
             List<Result> arr = ToList(res);
             for (int i = 0; i < arr.Count; i++)
                 ret.Add(ToList(new Result(res.Link, arr[i].Text)));

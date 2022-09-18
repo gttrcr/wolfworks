@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Wolfram.NETLink;
 
@@ -8,7 +10,7 @@ namespace NetWolf
     public class WolframLink
     {
         private readonly Mutex wolfMutex;
-        private MathKernel mathKernel = null;
+        private readonly MathKernel mathKernel = null;
         public List<Input> DefinedFunctions { get; private set; }
 
         public WolframLink()
@@ -19,6 +21,15 @@ namespace NetWolf
             {
                 ResultFormat = MathKernel.ResultFormatType.InputForm
             };
+
+            List<string> mlArgs;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                mlArgs = new List<string>() { "-linkmode", "launch", "-linkname", "C:\\Program Files\\Wolfram Research\\Wolfram Engine\\13.1\\mathkernel.exe" };
+            else
+                throw new NotImplementedException("Platform not implemented");
+
+            IKernelLink ml = MathLinkFactory.CreateKernelLink(mlArgs.ToArray());
+            mathKernel.Link = ml;
 
             //activate the kernel
             mathKernel.Compute();
