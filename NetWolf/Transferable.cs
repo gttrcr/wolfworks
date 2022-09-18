@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-
-namespace NetWolf
+﻿namespace NetWolf
 {
     public abstract class Transferable
     {

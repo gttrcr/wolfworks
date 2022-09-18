@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Runtime.InteropServices;
 using Wolfram.NETLink;
 
 namespace NetWolf
@@ -10,7 +6,7 @@ namespace NetWolf
     public class WolframLink
     {
         private readonly Mutex wolfMutex;
-        private readonly MathKernel mathKernel = null;
+        private readonly MathKernel mathKernel;
         public List<Input> DefinedFunctions { get; private set; }
 
         public WolframLink()
