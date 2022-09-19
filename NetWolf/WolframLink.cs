@@ -1,45 +1,119 @@
-﻿using System.Runtime.InteropServices;
-using Wolfram.NETLink;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 namespace NetWolf
 {
+    public class StateObject
+    {
+        public Socket workSocket = null;
+        public const int BufferSize = 1024;
+        public byte[] buffer = new byte[BufferSize];
+        public StringBuilder sb = new StringBuilder();
+    }
+
     public class WolframLink
     {
         private readonly Mutex wolfMutex;
-        private readonly MathKernel mathKernel;
+        private readonly Socket mathKernel;
         public List<Input> DefinedFunctions { get; private set; }
 
-        public WolframLink()
+        public WolframLink(string ip)
         {
             wolfMutex = new Mutex();
             DefinedFunctions = new List<Input>();
-            mathKernel = new MathKernel()
-            {
-                ResultFormat = MathKernel.ResultFormatType.InputForm
-            };
 
-            List<string> mlArgs;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                mlArgs = new List<string>() { "-linkmode", "launch", "-linkname", "C:\\Program Files\\Wolfram Research\\Wolfram Engine\\13.1\\mathkernel.exe" };
-            else
-                throw new NotImplementedException("Platform not implemented");
-
-            IKernelLink ml = MathLinkFactory.CreateKernelLink(mlArgs.ToArray());
-            mathKernel.Link = ml;
-
-            //activate the kernel
-            mathKernel.Compute();
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = IPAddress.Parse(ip); //ipHostInfo.AddressList[1];
+            const int port = 5000;
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+            mathKernel = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            mathKernel.Connect(remoteEP);
         }
+
+        private static void Receive(Socket client)
+        {
+            try
+            {
+                StateObject state = new StateObject();
+                state.workSocket = client;
+                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                receiveDone.WaitOne();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        private static ManualResetEvent receiveDone = new ManualResetEvent(false);
+        private static String response = String.Empty;
+        private static void ReceiveCallback(IAsyncResult ar)
+        {
+            try
+            {
+                StateObject state = (StateObject)ar.AsyncState;
+                Socket client = state.workSocket;
+                int bytesRead = client.EndReceive(ar);
+
+                if (bytesRead > 0)
+                {
+                    state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                    response = state.sb.ToString();
+                    Console.WriteLine("Received {0} bytes to server.", bytesRead);
+                    receiveDone.Set();
+                }
+                else
+                    throw new InvalidDataException("0 byte received");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        private static void Send(Socket client, String data)
+        {
+            byte[] byteData = Encoding.ASCII.GetBytes(data);
+            //client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
+            if (client.Send(byteData) != byteData.Length)
+                throw new Exception();
+            byte[] rec = new byte[1000];
+            int length = client.Receive(rec);
+            response = Encoding.ASCII.GetString(rec, 0, length);
+            //sendDone.WaitOne();
+        }
+
+        //private static ManualResetEvent sendDone = new ManualResetEvent(false);
+        //private static void SendCallback(IAsyncResult ar)
+        //{
+        //    try
+        //    {
+        //        Socket client = (Socket)ar.AsyncState;
+        //        int bytesSent = client.EndSend(ar);
+        //        Console.WriteLine("Sent {0} bytes to server.", bytesSent);
+        //        sendDone.Set();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.ToString());
+        //    }
+        //}
 
         //The only function that contains Compute function
         public Result Execute(Transferable input)
         {
             wolfMutex.WaitOne();
-            mathKernel.Compute(input.Text);
-            string obj = mathKernel.Result.ToString().Replace(" ", "").Replace("\r", "");
+            
+            //mathKernel.Compute(input.Text);
+            //string obj = mathKernel.Result.ToString().Replace(" ", "").Replace("\r", "");
+
+            Send(mathKernel, input.Text);
+            //Receive(mathKernel);
+
             wolfMutex.ReleaseMutex();
 
-            return new Result(this, obj);
+            return new Result(this, response);
         }
 
         public Result Execute(string input)

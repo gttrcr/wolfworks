@@ -6,10 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="Wolfram.NETLink">
-      <HintPath>C:\Program Files\Wolfram Research\Wolfram Engine\13.1\SystemFiles\Links\NETLink\Wolfram.NETLink.dll</HintPath>
-    </Reference>
-</ItemGroup>
-
 </Project>
