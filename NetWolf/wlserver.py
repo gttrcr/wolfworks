@@ -11,7 +11,7 @@ def server_program():
     while True:
         try:
             host = socket.gethostname()
-            port = 5000
+            port = 1642
             server_socket = socket.socket()
             server_socket.bind((host, port))
             print("gethostname() and bind() ok")
