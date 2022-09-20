@@ -1,4 +1,9 @@
-import socket
+namespace NetWolf
+{
+    class Py
+    {
+        public static readonly string Name = "wlserver.py";
+        public static readonly string Code = @"import socket
 import _thread
 from wolframclient.evaluation import WolframLanguageSession
 from wolframclient.language import wl, wlexpr
@@ -39,3 +44,6 @@ try:
 except:
     s.close()
     session.terminate()
+";
+    }
+}
