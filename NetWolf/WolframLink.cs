@@ -50,7 +50,7 @@ namespace NetWolf
         private void Run(string cmd, string args = "")
         {
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = @"C:\Python\Python310\python.exe";
+            start.FileName = @"python";
             start.Arguments = string.Format("{0} {1}", cmd, args);
             start.UseShellExecute = false;// Do not use OS shell
             start.CreateNoWindow = true; // We don't need new window
