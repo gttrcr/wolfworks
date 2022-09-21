@@ -24,8 +24,7 @@ namespace NetWolf
 
             if (wlserver == null)
             {
-                if (!File.Exists(Py.Name))
-                    File.WriteAllText(Py.Name, Py.Code);
+                File.WriteAllText(Py.Name, Py.Code);
                 Run(Py.Name);
             }
 
