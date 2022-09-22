@@ -2,7 +2,6 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 
 namespace NetWolf
 {
@@ -123,74 +122,65 @@ namespace NetWolf
             return CallFunction(new Input(this, input), arguments.Select(x => new Input(this, x)).Cast<Transferable>().ToList(), name);
         }
 
-        public Result Simplify(Transferable input = null, string name = "")
+        public Result Simplify(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "Simplify[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result Length(Transferable input = null, string name = "")
+        public Result Length(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "Length[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result Part(Transferable input = null, int index = 1, string name = "")
+        public Result Part(Transferable? input = null, int index = 1, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + input.Text + "[[" + index + "]]";
             return Execute(inputStr);
         }
 
-        public Result NumberQ(Transferable input = null, string name = "")
+        public Result NumberQ(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "NumberQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result ArrayQ(Transferable input = null, string name = "")
+        public Result ArrayQ(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "ArrayQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result MatrixQ(Transferable input = null, string name = "")
+        public Result MatrixQ(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "MatrixQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result PolynomialQ(Transferable input = null, string name = "")
+        public Result PolynomialQ(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "PolynomialQ[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result Abs(Transferable input = null, string name = "")
+        public Result Abs(Transferable? input = null, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "Abs[" + input.Text + "]";
             return Execute(inputStr);
         }
 
-        public Result Flatten(Transferable input = null, int index = 0, string name = "")
+        public Result Flatten(Transferable? input = null, int index = 0, string name = "")
         {
-            if (input == null)
-                input = new Input(this, "%");
+            input ??= new Input(this, "%");
             string inputStr = (name == "" ? name : name + "=") + "Flatten[" + input + ", " + index + "]";
             return Execute(inputStr);
         }
@@ -207,13 +197,29 @@ namespace NetWolf
             return Execute(inputStr);
         }
 
-        public Result Graph(string v, string e = "", string name = "", string options = "")
+        public Result Graph(WolframObj.GraphObj gr)
         {
-            string inputStr = (name == "" ? name : name + "=") + "Graph[{" + v + "}" + (e == "" ? e : ", {" + e + "}") + (options == "" ? options : ", " + options) + "]";
+            string vertices = "";
+            if (gr.Vertices != null)
+                vertices = string.Join(',', gr.Vertices);
+
+            string edges = "";
+            if (gr.Edges != null)
+                edges = string.Join(',', gr.Edges);
+
+            string edgeWeight = "";
+            if (gr.EdgeWeight != null)
+                edgeWeight = string.Join(',', gr.EdgeWeight);
+
+            string options = "";
+            if (gr.Options != null)
+                options = string.Join(',', gr.Options);
+
+            string inputStr = gr.Name + "=" + "Graph[{" + vertices + "}" + (edges == "" ? edges : ", {" + edges + "}") + (options == "" ? options : ", " + options) + "]";
             return Execute(inputStr);
         }
 
-        //Add here driver methods
+        //Add here more driver methods
 
         public void Dispose()
         {
