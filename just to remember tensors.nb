@@ -1,0 +1,175 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      6819,        165]
+NotebookOptionsPosition[      6464,        151]
+NotebookOutlinePosition[      6865,        167]
+CellTagsIndexPosition[      6822,        164]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"F", "=", 
+   RowBox[{"Metric", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     SubscriptBox["i", "-"], ",", 
+     SubscriptBox["j", "-"], ",", "\[IndentingNewLine]", 
+     TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+         {
+          FractionBox["4", 
+           RowBox[{
+            SuperscriptBox["\[Theta]1", "2"], "+", 
+            SuperscriptBox["\[Theta]2", "2"], "+", 
+            SuperscriptBox["\[Theta]3", "2"], "+", 
+            SuperscriptBox[
+             RowBox[{"ArcTan", "[", 
+              RowBox[{"\[Theta]3", ",", "\[Theta]1"}], "]"}], "2"]}]], "0"},
+         {"0", 
+          FractionBox[
+           RowBox[{"4", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox["\[Theta]1", "2"], "+", 
+              SuperscriptBox["\[Theta]2", "2"], "+", 
+              SuperscriptBox["\[Theta]3", "2"], "+", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 SuperscriptBox["\[Theta]1", "2"], "+", 
+                 SuperscriptBox["\[Theta]3", "2"]}], ")"}], " ", 
+               SuperscriptBox[
+                RowBox[{"ArcTan", "[", 
+                 RowBox[{"\[Theta]3", ",", "\[Theta]1"}], "]"}], "2"]}]}], 
+             ")"}]}], 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox["\[Theta]1", "2"], "+", 
+              SuperscriptBox["\[Theta]3", "2"]}], ")"}], " ", 
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{
+               SuperscriptBox["\[Theta]1", "2"], "+", 
+               SuperscriptBox["\[Theta]2", "2"], "+", 
+               SuperscriptBox["\[Theta]3", "2"], "+", 
+               SuperscriptBox[
+                RowBox[{"ArcTan", "[", 
+                 RowBox[{"\[Theta]3", ",", "\[Theta]1"}], "]"}], "2"]}], 
+              ")"}], "2"]}]]}
+        },
+        GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+        GridBoxSpacings->{"Columns" -> {
+            Offset[0.27999999999999997`], {
+             Offset[0.7]}, 
+            Offset[0.27999999999999997`]}, "Rows" -> {
+            Offset[0.2], {
+             Offset[0.4]}, 
+            Offset[0.2]}}], "\[NoBreak]", ")"}],
+      Function[BoxForm`e$, 
+       MatrixForm[BoxForm`e$]]], ",", "\[IndentingNewLine]", 
+     RowBox[{"CoordinateSystem", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Par", "[", "1", "]"}], ",", " ", 
+        RowBox[{"Par", "[", "2", "]"}], ",", " ", 
+        RowBox[{"Par", "[", "3", "]"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"TensorName", "\[Rule]", "\"\<g\>\""}], ",", " ", 
+     "\[IndentingNewLine]", 
+     RowBox[{"StartIndex", "\[Rule]", "1"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"ChristoffelOperator", "\[Rule]", "FullSimplify"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"RiemannOperator", "\[Rule]", "FullSimplify"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"RicciOperator", "\[Rule]", "FullSimplify"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"RicciScalarOperator", "\[Rule]", "FullSimplify"}]}], "\n", " ", 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"F", "//", "PrintT"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Christoffel", "[", 
+   RowBox[{
+    RowBox[{"SuperMinus", "[", "i", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "j", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "k", "]"}], ",", " ", "F"}], "]"}], "//", 
+  "PrintT"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Riemann", "[", 
+   RowBox[{
+    RowBox[{"SubMinus", "[", "i", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "j", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "k", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "l", "]"}], ",", " ", "F"}], "]"}], "//", 
+  "PrintT"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Ricci", "[", 
+   RowBox[{
+    RowBox[{"SubMinus", "[", "i", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "j", "]"}], ",", " ", "F"}], "]"}], "//", 
+  "PrintT"}], "\[IndentingNewLine]", 
+ RowBox[{"RicciScalar", "[", "F", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Einstein", "[", 
+   RowBox[{
+    RowBox[{"SubMinus", "[", "i", "]"}], ",", " ", 
+    RowBox[{"SubMinus", "[", "j", "]"}], ",", " ", "F"}], "]"}], "//", 
+  "PrintT"}]}], "Input",
+ CellChangeTimes->{{3.8872843657115445`*^9, 3.8872843891182337`*^9}, {
+   3.8872844206004133`*^9, 3.8872844384446545`*^9}, {3.8872844823320937`*^9, 
+   3.887284560940891*^9}, {3.887287683563265*^9, 3.8872878515115647`*^9}, {
+   3.8872879292415576`*^9, 3.8872881057779007`*^9}, {3.887288145143981*^9, 
+   3.8872884059370537`*^9}, 3.8872884472808666`*^9, {3.8872884902506676`*^9, 
+   3.887288499185692*^9}, {3.887288684758566*^9, 3.8872887691634645`*^9}, {
+   3.8872898071727343`*^9, 3.8872898243849*^9}, {3.887629663663291*^9, 
+   3.887629665290554*^9}, {3.8876297020015635`*^9, 3.8876297166034083`*^9}, {
+   3.887629804811497*^9, 3.8876298456088467`*^9}, {3.8876299149746647`*^9, 
+   3.887629915273782*^9}, {3.8876299612265005`*^9, 3.887630099923178*^9}, {
+   3.8876301598693275`*^9, 3.8876304033586707`*^9}, {3.8876304460112624`*^9, 
+   3.8876305731178455`*^9}, {3.888833181996612*^9, 3.888833268012762*^9}, {
+   3.8888333469817467`*^9, 3.8888333667338033`*^9}, {3.888833496769142*^9, 
+   3.888833502654341*^9}, 3.8888335970237217`*^9, {3.888833660260764*^9, 
+   3.888833671050951*^9}, {3.889109489568185*^9, 3.8891095207094784`*^9}, {
+   3.8891095679984207`*^9, 3.8891095900406513`*^9}, {3.8891102354326625`*^9, 
+   3.8891102912160716`*^9}, {3.8895420743087115`*^9, 3.889542214548626*^9}, 
+   3.8902419890268545`*^9, {3.890927250832221*^9, 3.8909272815102725`*^9}, {
+   3.8909277572326508`*^9, 3.8909277584977016`*^9}, {3.8909278459890795`*^9, 
+   3.890927856902444*^9}, {3.890927921799267*^9, 3.89092792585102*^9}, 
+   3.8909292484618034`*^9},
+ CellLabel->
+  "In[782]:=",ExpressionUUID->"323495b2-f8f1-4cbd-8b07-f7d155f61f1a"]
+},
+WindowSize->{1909, 1012},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"d97180fa-016e-45e0-bad0-536ea715aa6e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 5902, 129, 410, "Input",ExpressionUUID->"323495b2-f8f1-4cbd-8b07-f7d155f61f1a"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
