@@ -207,3 +207,36 @@
 (*pars/.%//Normal;*)
 (*ReplaceAll[%, Table[PP[i]->Par[i], {i, 1, Universe[p][[1]]}]]*)
 (*JacobianMatrix[%]//DefaultSimplify//MatrixForm*)
+
+
+(* ::Input:: *)
+(*BuildAll[p_]:=*)
+(*( *)
+(*{*)
+(*gMetric[p],*)
+(*JacobianMatrix[p],*)
+(*FITgMetric[p],*)
+(*JacobianMatrix[2 p/Sqrt[Total[p^2]]]*)
+(*}*)
+(*)*)
+(**)
+(*sc=CoordinateTransform["Spherical"->"Cartesian",{Par[1], Par[2], Par[3]}]*)
+(*SC=BuildAll[sc];*)
+(*uc={\[Theta]1,\[Theta]1 \[Theta]2,\[Theta]1 \[Theta]3 Sin[\[Theta]2]}*)
+(*UC=BuildAll[uc];*)
+(*su={Par[1] Sin[Par[2]] Cos[Par[3]], Tan[Par[3]], 1/(Tan[Par[2]] Cos[Par[3]] Sin[Tan[Par[3]]])}*)
+(*SU=BuildAll[su];*)
+
+
+(* ::Input:: *)
+(*Transpose[SC[[2]]] . SC[[2]]//DefaultSimplify ;*)
+(*(SC[[1]]//DefaultSimplify)==%*)
+(*Transpose[SC[[4]]] . SC[[4]]//DefaultSimplify;*)
+(*(SC[[3]]//DefaultSimplify)==%*)
+(*Transpose[UC[[2]]] . UC[[2]]//DefaultSimplify;*)
+(*(UC[[1]]//DefaultSimplify)==%*)
+(*Transpose[UC[[4]]] . UC[[4]]//DefaultSimplify;*)
+(*(UC[[3]]//DefaultSimplify)==%*)
+
+
+
