@@ -207,17 +207,3 @@
 (*pars/.%//Normal;*)
 (*ReplaceAll[%, Table[PP[i]->Par[i], {i, 1, Universe[p][[1]]}]]*)
 (*JacobianMatrix[%]//DefaultSimplify//MatrixForm*)
-
-
-(* ::Input:: *)
-(*{*)
-(* {(4 (\[Theta]3^2 ((1+\[Theta]2^2) Cos[\[Theta]2]-\[Theta]2 Sin[\[Theta]2])^2+(1+\[Theta]3^2 Sin[\[Theta]2] (-\[Theta]2 Cos[\[Theta]2]+Sin[\[Theta]2]))^2))/((\[Theta]1^2+\[Theta]2^2+\[Theta]3^2) (1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^3), (4 \[Theta]3 Sin[\[Theta]2] (-\[Theta]2 Sin[\[Theta]2] (2+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)+Cos[\[Theta]2] ((1+\[Theta]2^2)^2+\[Theta]2^2 \[Theta]3^2 Sin[\[Theta]2]^2)))/((\[Theta]1^2+\[Theta]2^2+\[Theta]3^2) (1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^3)},*)
-(* {(4 \[Theta]3 Sin[\[Theta]2] (-\[Theta]2 Sin[\[Theta]2] (2+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)+Cos[\[Theta]2] ((1+\[Theta]2^2)^2+\[Theta]2^2 \[Theta]3^2 Sin[\[Theta]2]^2)))/((\[Theta]1^2+\[Theta]2^2+\[Theta]3^2) (1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^3), (4 Sin[\[Theta]2]^2 ((1+\[Theta]2^2)^2+\[Theta]2^2 \[Theta]3^2 Sin[\[Theta]2]^2))/((\[Theta]1^2+\[Theta]2^2+\[Theta]3^2) (1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^3)}*)
-(*}//Det//DefaultSimplify*)
-
-
-(* ::Input:: *)
-(*{*)
-(* {(2 (2+(2+\[Theta]2^2) \[Theta]3^2+\[Theta]2 \[Theta]3^2 (\[Theta]2 Cos[2 \[Theta]2]-2 Sin[2 \[Theta]2])))/(1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^2, (4 \[Theta]3 Sin[\[Theta]2] ((1+\[Theta]2^2) Cos[\[Theta]2]-\[Theta]2 Sin[\[Theta]2]))/(1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^2},*)
-(* {(4 \[Theta]3 Sin[\[Theta]2] ((1+\[Theta]2^2) Cos[\[Theta]2]-\[Theta]2 Sin[\[Theta]2]))/(1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^2, (4 (1+\[Theta]2^2) Sin[\[Theta]2]^2)/(1+\[Theta]2^2+\[Theta]3^2 Sin[\[Theta]2]^2)^2}*)
-(*}//Det//DefaultSimplify*)
