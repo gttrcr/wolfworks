@@ -1,0 +1,1 @@
+# This repo has been moved to the [rescode](https://github.com/gttrcr/rescode/tree/main/mathematica) position and will soon be completely replaced by rescode. Click [here](https://github.com/gttrcr/rescode/tree/main/mathematica) to go to the new repo.
